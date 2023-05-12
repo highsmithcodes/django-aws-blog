@@ -10,7 +10,7 @@ SECRET_KEY = config('SECRET_KEY')
 DEBUG = False
 
 ALLOWED_HOSTS = [
-    'ezrah-basic-django-blog.herokuapp.com',
+    'django-aws-blog.herokuapp.com',
 ]
 
 # AWS S3 SETTINGS
