@@ -25,6 +25,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('', blog_views.home, name='home')
 ]
+# testing
 
 
 if settings.DEBUG:
