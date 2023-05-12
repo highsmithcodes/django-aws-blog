@@ -10,23 +10,15 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.2/ref/settings/
 """
 
+# Required to use heroku's database
+import dj_database_url
+from decouple import config
+from dotenv import load_dotenv, find_dotenv
+
 from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
-BASE_DIR = Path(__file__).resolve().parent.parent
-
-
-# Quick-start development settings - unsuitable for production
-# See https://docs.djangoproject.com/en/4.2/howto/deployment/checklist/
-
-# SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-r)=29dk0r5z_0=m^$3x@=4jug&u0jbg6ab4zb!2pgw@+bl(eoe'
-
-# SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
-
-ALLOWED_HOSTS = []
-
+BASE_DIR = Path(__file__).resolve().parent.parent.parent
 
 # Application definition
 
@@ -37,6 +29,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django_extensions',
     'blog',
     'storages',
 ]
@@ -75,11 +68,12 @@ WSGI_APPLICATION = 'config.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 
+load_dotenv(find_dotenv())
+
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
-    }
+    # conn_max_age dictates how long you want to keep the connection open
+    # Connect to the database in heroku
+    'default': dj_database_url.config(default='sqlite:///db.sqlite3', conn_max_age=600)
 }
 
 
@@ -112,39 +106,6 @@ TIME_ZONE = 'UTC'
 USE_I18N = True
 
 USE_TZ = True
-
-# AWS S3 SETTINGS
-
-AWS_ACCESS_KEY_ID = 'AKIA2CNAK7BAWKZB3K7U'
-
-AWS_SECRET_ACCESS_KEY = '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'
-
-AWS_STORAGE_BUCKET_NAME = 'ezrah-s3-django-blog-bucket'
-
-AWS_S3_CUSTOM_DOMAIN = f'{AWS_STORAGE_BUCKET_NAME}.s3.amazonaws.com'
-
-AWS_DEFAULT_ACL = 'public-read'
-
-AWS_S3_OBJECT_PARAMETERS = {
-    'CacheControl' : 'max-age=86400'
-}
-
-AWS_LOCATION = 'static'
-
-AWS_HEADERS = {
-    'Access-Control-Allow-Origin': '*',
-}
-
-# Static files (CSS, JavaScript, Images)
-# https://docs.djangoproject.com/en/4.2/howto/static-files/
-
-DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
-
-STATICFILES_STORAGE = 'storages.backends.s3boto3.S3StaticStorage'
-
-STATIC_URL = f'https://{AWS_S3_CUSTOM_DOMAIN}/static/'
-MEDIA_URL = f'https://{AWS_S3_CUSTOM_DOMAIN}/media/'
-
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
