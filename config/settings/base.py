@@ -10,14 +10,14 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.2/ref/settings/
 """
 # figure out why it's not deploying
+from pathlib import Path
 
 
 # Required to use heroku's database
 import dj_database_url
-from decouple import config
+# from decouple import config
 from dotenv import load_dotenv, find_dotenv
 
-from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent.parent
