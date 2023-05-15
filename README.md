@@ -1,4 +1,4 @@
-# DJango AWS Heroku Blog
+# Django AWS Heroku Blog
 
 Blog Website using Django AWS and Heroku | [View Website](#).
 
